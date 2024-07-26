@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX 100
+#define INF 99999
+
+struct Edge {
+    int u, v, weight;
+} edge[MAX];
+
+int parent[MAX];
+
+int main() {
+    int n, m;
+    printf("Enter number of vertices and edges: ");
+    scanf("%d%d", &n, &m);
+
+    for (int i = 0; i < m; i++) {
+        printf("Enter edge %d (u v weight): ", i + 1);
+        scanf("%d%d%d", &edge[i].u, &edge[i].v, &edge[i].weight);
+    }
+
+    for (int i = 0; i < n; i++)
+        parent[i] = i;
+
+    for (int i = 0; i < m; i++) {
+        for (int j = i + 1; j < m; j++) {
+            if (edge[i].weight > edge[j].weight) {
+                struct Edge temp = edge[i];
+                edge[i] = edge[j];
+                edge[j] = temp;
+            }
+        }
+    }
+
+    int mincost = 0;
+    for (int i = 0; i < m; i++) {
+        int u = edge[i].u;
+        int v = edge[i].v;
+        while (parent[u] != u)
+            u = parent[u];
+        while (parent[v] != v)
+            v = parent[v];
+
+        if (u != v) {
+            printf("%d - %d : %d\n", edge[i].u, edge[i].v, edge[i].weight);
+            mincost += edge[i].weight;
+            parent[u] = v;
+        }
+    }
+    printf("Minimum cost = %d\n", mincost);
+
+    return 0;
+}
