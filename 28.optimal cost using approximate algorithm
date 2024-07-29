@@ -3,6 +3,7 @@
 
 int main() {
     int n;
+    printf("y yaswanth kumar-192211149\n");
     printf("Enter number of matrices: ");
     scanf("%d", &n);
     
